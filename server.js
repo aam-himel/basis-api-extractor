@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const fs = require("fs");
+const { companies } = require("./data/finalList");
+
 app.use(express.json());
 
 app.get("/companies", async (req, res) => {
@@ -10,15 +12,15 @@ app.get("/companies", async (req, res) => {
   let baseUrl = "https://basis.org.bd/get-member-list?page=";
 
   try {
-    for (let i = 1; i < 2; i++) {
+    for (let i = 1; i <= 1; i++) {
       const response = await axios.get(`${baseUrl}${i}`);
       const data = await response.data.data;
       companyList = [...companyList, ...data];
-      console.log(companyList, "Again");
+      //   console.log(companyList, "Again");
+      console.log(`-------- ${i} ------------`);
     }
     fs.writeFileSync("data/companyList.json", JSON.stringify(companyList));
-
-    res.status(200).json(companyList);
+    res.json(companies);
   } catch (err) {
     console.log(err);
   }
